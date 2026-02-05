@@ -1,18 +1,21 @@
-import { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import HomePage from "./Home.jsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./Home";
+import LoginPage from "./LoginPage";
+import RegisterPage from "./RegisterPage";
+import { MoodProvider } from "./context/MoodContext";
 
-export default function App() {
+function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-      </Routes>
-    </Router>
+    <MoodProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Routes>
+      </Router>
+    </MoodProvider>
   );
 }
+
+export default App;

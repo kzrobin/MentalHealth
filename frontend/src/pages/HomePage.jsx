@@ -1,11 +1,10 @@
 import { useState } from "react";
-import MoodSelector from "./components/MoodSelector";
-import PreviewPanel from "./components/PreviewPanel";
-import BreathingExercise from "./components/BreathingExercise";
-import { moodData } from "./data/moodData";
+import MoodSelector from "../components/MoodSelector";
+import PreviewPanel from "../components/PreviewPanel";
+import BreathingExercise from "../components/BreathingExercise";
+import { moodData } from "../data/moodData";
 import { Button } from "@/components/ui/button";
-import Navbar from "./components/Navbar";
-import { useMood } from "./context/MoodContext";
+import Layout from "../components/Layout";
 import {
   Sheet,
   SheetContent,
@@ -22,18 +21,19 @@ const moodBackgrounds = {
   burnout: "bg-gradient-to-br from-rose-50 to-pink-200",
 };
 
-export default function HomePage() {
-  const { mood, updateMood } = useMood();
+export default function HomePage({ mood = null, onMoodChange }) {
   const [sheetOpen, setSheetOpen] = useState(false);
 
+  const handleMoodSelect = (selectedMood) => {
+    onMoodChange(selectedMood);
+  };
+
   return (
-    <>
-      <Navbar />
+    <Layout>
       <div
         className={`
-          min-h-screen transition-colors duration-500
-          flex flex-col items-center justify-start
-          py-10 px-4
+          transition-colors duration-500
+          flex flex-col flex-1 h-full items-center justify-start px-4
           ${mood ? moodBackgrounds[mood] : "bg-gradient-to-br from-slate-50 to-slate-100"}
         `}
       >
@@ -45,7 +45,7 @@ export default function HomePage() {
           </header>
 
           <div className="max-w-xl w-full mb-6">
-            <MoodSelector onMoodSelect={updateMood} />
+            <MoodSelector onMoodSelect={handleMoodSelect} />
           </div>
 
           <div className="max-w-xl w-full grid md:grid-cols-2 gap-6 items-start">
@@ -82,6 +82,6 @@ export default function HomePage() {
           </Sheet>
         </div>
       </div>
-    </>
+    </Layout>
   );
 }
